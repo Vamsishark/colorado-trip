@@ -85,31 +85,6 @@ colorado-trip/
         └── deploy-pages.yml
 ```
 
-## 🚀 GitHub Pages deployment
-
-Repository:
-
-**https://github.com/Vamsishark/colorado-trip**
-
-1. Upload the contents of this ZIP to the repository root.
-2. Commit to the `main` branch.
-3. Open **Settings → Pages**.
-4. Under **Build and deployment**, select **GitHub Actions**.
-5. The included workflow will deploy the site automatically.
-6. Every future push to `main` triggers another deployment.
-
-## 🔄 Updating
-
-Edit `index.html`, then:
-
-```bash
-git add .
-git commit -m "Update Colorado trip planner"
-git push origin main
-```
-
-GitHub Actions handles deployment automatically.
-
 ## 🔒 Privacy
 
 Do not commit flight confirmation codes, hotel reservation numbers, phone numbers, IDs, or other private travel details to a public repository.
