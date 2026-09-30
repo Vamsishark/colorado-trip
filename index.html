@@ -4,6 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Colorado Fall Loop • Oct 9–11, 2026</title>
 <meta name="theme-color" content="#163a2c">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <style>
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f4f1e9;color:#14261f;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 :root{--green:#163a2c;--forest:#245640;--orange:#d76c2b;--blue:#3979a8;--gold:#dda83d;--paper:#fffdf9;--line:#e6dfd2;--muted:#68756f;--shadow:0 12px 34px #163a2c14}
@@ -11,7 +12,7 @@
 .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:#e8c783}.hero h1{font-family:Georgia,serif;font-size:clamp(38px,6vw,72px);line-height:.98;margin:10px 0 14px;max-width:850px}.hero p{max-width:780px;line-height:1.6;color:#e6eee9}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}.chip{border:1px solid #ffffff35;background:#ffffff12;padding:8px 11px;border-radius:999px;font-size:12px;font-weight:750}
 .wrap{max-width:1380px;margin:auto;padding:24px max(4vw,18px) 60px}.topgrid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}.card{background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}.pad{padding:20px}
 h2{font-family:Georgia,serif;font-size:29px;margin:0 0 14px}h3{margin:0 0 5px}.sub{color:var(--muted);font-size:13px;line-height:1.55}
-.mapwrap{position:relative;background:#e7eadf}.mapwrap svg{display:block;width:100%;height:auto;min-height:520px}.mapnote{position:absolute;left:16px;bottom:16px;background:#fffefbde;backdrop-filter:blur(8px);padding:10px 12px;border:1px solid #ded7c9;border-radius:12px;font-size:11px;max-width:250px}
+.mapwrap{position:relative;background:#e7eadf}.mapwrap #map{height:620px;width:100%;z-index:1}.mapnote{position:absolute;left:16px;bottom:28px;z-index:500;background:#fffefbe8;backdrop-filter:blur(8px);padding:10px 12px;border:1px solid #ded7c9;border-radius:12px;font-size:11px;max-width:270px;box-shadow:0 5px 18px #0002}.maplegend{position:absolute;right:16px;top:16px;z-index:500;background:#fffefbf2;padding:12px 14px;border:1px solid #ded7c9;border-radius:14px;font-size:11px;box-shadow:0 5px 18px #0002}.legendrow{display:flex;align-items:center;gap:8px;margin:6px 0;white-space:nowrap}.legline{width:28px;height:5px;border-radius:99px}.legpin{width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid #163a2c}.legbed{font-size:15px;width:16px;text-align:center}
 .daynav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:15px 0}.daybtn{border:1px solid var(--line);border-radius:13px;padding:11px;background:#fff;cursor:pointer;font-weight:800}.daybtn.active{background:var(--green);color:#fff}
 .routeTitle{display:flex;align-items:center;gap:9px;margin:5px 0 14px;font-weight:800}.routeLine{width:34px;height:5px;border-radius:99px}
 .timeline{display:grid;gap:0}.event{display:grid;grid-template-columns:76px 18px 1fr;gap:10px;min-height:70px}.event .time{font-weight:850;color:var(--orange);font-size:12px;padding-top:2px}.rail{position:relative}.rail:before{content:"";position:absolute;left:8px;top:9px;bottom:-8px;width:2px;background:#ddd5c7}.event:last-child .rail:before{display:none}.rail:after{content:"";position:absolute;left:4px;top:5px;width:10px;height:10px;background:var(--gold);border-radius:50%;box-shadow:0 0 0 4px #f7e9c7}.event p{margin:0;color:var(--muted);font-size:12.5px;line-height:1.5}
@@ -34,35 +35,9 @@ h2{font-family:Georgia,serif;font-size:29px;margin:0 0 14px}h3{margin:0 0 5px}.s
 <main class="wrap">
 <div class="topgrid">
 <section class="card mapwrap">
-<svg viewBox="0 0 900 620" role="img" aria-label="Schematic map of the optimized Colorado road trip">
-<defs>
-<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#edf0e7"/><stop offset="1" stop-color="#dce5db"/></linearGradient>
-<filter id="shadow"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-opacity=".15"/></filter>
-</defs>
-<rect width="900" height="620" fill="url(#bg)"/>
-<g opacity=".38" fill="none" stroke="#879d8e" stroke-width="2">
-<path d="M50 475 Q180 350 270 410 T450 315 T640 360 T840 240"/><path d="M70 390 Q210 270 315 330 T530 220 T820 175"/><path d="M30 535 Q170 450 300 500 T540 400 T865 420"/>
-</g>
-<g fill="#c7d5c8" opacity=".7"><path d="M0 420 L120 250 205 395 300 185 390 405 510 205 625 410 745 235 900 430 900 620 0 620Z"/></g>
-<!-- Day 1 -->
-<path d="M650 475 C680 420 700 350 690 275 C680 210 635 160 590 120" fill="none" stroke="#3979a8" stroke-width="11" stroke-linecap="round"/>
-<!-- Day 2 -->
-<path d="M590 120 C510 180 445 250 375 350 C330 410 270 435 220 455 C180 470 155 500 135 530" fill="none" stroke="#d76c2b" stroke-width="11" stroke-linecap="round"/>
-<!-- Day 3 -->
-<path d="M135 530 C185 545 245 540 300 520 C385 490 460 475 530 485 C585 490 620 490 650 475" fill="none" stroke="#245640" stroke-width="11" stroke-linecap="round"/>
-<g font-family="Inter,Arial" font-weight="800" font-size="15" fill="#163a2c">
-<g transform="translate(650,475)"><circle r="18" fill="#fff" stroke="#163a2c" stroke-width="4"/><text x="0" y="5" text-anchor="middle">1</text><text x="27" y="5">Denver</text></g>
-<g transform="translate(590,120)"><circle r="18" fill="#fff" stroke="#3979a8" stroke-width="4"/><text x="0" y="5" text-anchor="middle">2</text><text x="27" y="5">RMNP / Bear Lake</text></g>
-<g transform="translate(620,190)"><circle r="13" fill="#fff" stroke="#3979a8" stroke-width="4"/><text x="21" y="5">Estes Park</text></g>
-<g transform="translate(375,350)"><circle r="18" fill="#fff" stroke="#d76c2b" stroke-width="4"/><text x="0" y="5" text-anchor="middle">3</text><text x="27" y="5">Twin Lakes</text></g>
-<g transform="translate(220,455)"><circle r="18" fill="#fff" stroke="#d76c2b" stroke-width="4"/><text x="0" y="5" text-anchor="middle">4</text><text x="27" y="5">Independence Pass</text></g>
-<g transform="translate(135,530)"><circle r="18" fill="#fff" stroke="#d76c2b" stroke-width="4"/><text x="0" y="5" text-anchor="middle">5</text><text x="27" y="5">Aspen / Maroon Bells</text></g>
-<g transform="translate(300,520)"><circle r="16" fill="#fff" stroke="#245640" stroke-width="4"/><text x="0" y="5" text-anchor="middle">6</text><text x="25" y="-12">Glenwood</text></g>
-<g transform="translate(530,485)"><circle r="16" fill="#fff" stroke="#245640" stroke-width="4"/><text x="0" y="5" text-anchor="middle">7</text><text x="24" y="-10">Vail</text></g>
-</g>
-<g font-family="Inter,Arial" font-size="12" font-weight="800"><rect x="28" y="26" width="225" height="96" rx="15" fill="#fff" opacity=".93"/><text x="45" y="52" fill="#163a2c">ROUTE LEGEND</text><circle cx="48" cy="76" r="6" fill="#3979a8"/><text x="62" y="80">Day 1 • Rockies / Estes</text><circle cx="48" cy="98" r="6" fill="#d76c2b"/><text x="62" y="102">Day 2 • High alpine / Aspen</text><circle cx="178" cy="98" r="6" fill="#245640"/><text x="192" y="102">Day 3</text></g>
-</svg>
-<div class="mapnote"><b>Why this map won't break:</b> the trip overview is an embedded SVG, so it works offline and on GitHub Pages. Every stop below has a live Google Maps navigation link for actual driving.</div>
+<div id="map" aria-label="Interactive map of the Colorado road trip"></div>
+<div class="maplegend"><b>MAP LEGEND</b><div class="legendrow"><span class="legline" style="background:#3979a8"></span>Day 1 • Denver → RMNP → Estes</div><div class="legendrow"><span class="legline" style="background:#d76c2b"></span>Day 2 • Estes → Aspen / Maroon Bells</div><div class="legendrow"><span class="legline" style="background:#245640"></span>Day 3 • Aspen → Glenwood → Vail → DEN</div><div class="legendrow"><span class="legpin"></span>Major trip stop</div><div class="legendrow"><span class="legbed">🛏</span>Overnight stop</div></div>
+<div class="mapnote"><b>Interactive real map:</b> drag, zoom and click each numbered stop. Route lines show the trip sequence; use the navigation buttons below for live turn-by-turn directions.</div>
 </section>
 
 <section class="card pad">
@@ -123,30 +98,55 @@ h2{font-family:Georgia,serif;font-size:29px;margin:0 0 14px}h3{margin:0 0 5px}.s
 <div class="footer">This dashboard is a trip-planning aid, not a substitute for live road, weather, park or reservation information. Check official conditions before each mountain day.</div>
 </main>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
+
+const map=L.map('map',{scrollWheelZoom:false}).setView([39.45,-105.75],7);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+const stops=[
+ {n:1,name:'Denver',lat:39.7392,lng:-104.9903,day:1},
+ {n:2,name:'RMNP • Bear Lake',lat:40.3130,lng:-105.6456,day:1},
+ {n:3,name:'Estes Park • Overnight',lat:40.3772,lng:-105.5217,day:1,bed:true},
+ {n:4,name:'Twin Lakes',lat:39.0822,lng:-106.3823,day:2},
+ {n:5,name:'Independence Pass',lat:39.1084,lng:-106.5640,day:2},
+ {n:6,name:'Aspen • Overnight',lat:39.1911,lng:-106.8175,day:2,bed:true},
+ {n:7,name:'Maroon Bells',lat:39.0708,lng:-106.9890,day:2},
+ {n:8,name:'Glenwood Springs',lat:39.5505,lng:-107.3248,day:3},
+ {n:9,name:'Vail',lat:39.6403,lng:-106.3742,day:3},
+ {n:10,name:'DEN / Airport overnight',lat:39.8561,lng:-104.6737,day:3,bed:true}
+];
+const colors={1:'#3979a8',2:'#d76c2b',3:'#245640'};
+function pin(s){return L.divIcon({className:'',html:`<div style="width:30px;height:30px;border-radius:50%;background:white;border:4px solid ${colors[s.day]};display:grid;place-items:center;font:800 12px Inter,Arial;box-shadow:0 2px 8px #0004">${s.n}</div>`,iconSize:[30,30],iconAnchor:[15,15]});}
+stops.forEach(s=>L.marker([s.lat,s.lng],{icon:pin(s)}).addTo(map).bindPopup(`<b>${s.n}. ${s.name}</b>${s.bed?'<br>🛏 Overnight stop':''}`));
+const day1=[[39.7392,-104.9903],[40.3130,-105.6456],[40.3772,-105.5217]];
+const day2=[[40.3772,-105.5217],[39.0822,-106.3823],[39.1084,-106.5640],[39.1911,-106.8175],[39.0708,-106.9890],[39.1911,-106.8175]];
+const day3=[[39.1911,-106.8175],[39.5505,-107.3248],[39.6403,-106.3742],[39.8561,-104.6737]];
+[[day1,colors[1]],[day2,colors[2]],[day3,colors[3]]].forEach(([pts,c])=>L.polyline(pts,{color:c,weight:6,opacity:.88}).addTo(map));
+map.fitBounds(L.latLngBounds(stops.map(s=>[s.lat,s.lng])).pad(.12));
+
 const DAYS=[
 {title:"Day 1 • Fri Oct 9",color:"#3979a8",route:"Denver → RMNP → Estes Park",events:[
-["5:45 AM","Leave Denver","Start early and go directly toward the Bear Lake corridor."],
-["~7:30 AM","Bear Lake","Timed Entry + Bear Lake Road. Begin the main hike."],
-["Morning","Nymph → Dream Lake","Add Emerald only if trail/weather/energy are favorable."],
-["12:30 PM","RMNP scenic / wildlife","Use designated areas; keep distance from elk."],
-["2:00 PM","Estes Park","Lunch, walk the town, relax after hiking."],
+["9:30 AM","Leave Denver","Start the road trip and head directly toward the Bear Lake corridor."],
+["~11:15 AM","Bear Lake","Enter the Bear Lake corridor using your timed-entry reservation and begin the main hike."],
+["Late morning / early PM","Nymph → Dream Lake","Make Dream Lake the main target; add Emerald only if trail, weather and daylight are favorable."],
+["~2:00 PM","RMNP scenic / wildlife","Use designated areas and keep a safe distance from elk."],
+["~3:30 PM","Estes Park","Late lunch, walk the town and relax after hiking."],
 ["Evening","Estes Park overnight","Dinner here. Do not return to Denver."]
 ]},
 {title:"Day 2 • Sat Oct 10",color:"#d76c2b",route:"Estes → Twin Lakes → Independence Pass → Aspen → Maroon Bells",events:[
-["6:30 AM","Leave Estes Park","This is the longest transition day; keep the morning efficient."],
-["Late AM","Twin Lakes","Short scenic/photo stop."],
-["Midday","Independence Pass","12,095 ft summit stop; weather-dependent."],
-["Early PM","Aspen","Lunch / luggage drop."],
-["Afternoon","Maroon Bells","Build this section around your reserved access/shuttle time."],
+["9:30 AM","Leave Estes Park","This is the tightest driving day, so keep stops focused and have Maroon Bells access reserved in advance."],
+["~1:00 PM","Twin Lakes","Short scenic/photo stop rather than a long visit."],
+["~2:00 PM","Independence Pass","12,095 ft summit stop; keep it brief and confirm the pass is open before leaving Estes."],
+["~3:15 PM","Aspen","Quick food stop / luggage drop before Maroon Bells."],
+["Late afternoon","Maroon Bells","This only works with a compatible afternoon access/shuttle reservation; build the day around that reservation."],
 ["Evening","Aspen overnight","Downtown walk and dinner."]
 ]},
 {title:"Day 3 • Sun Oct 11",color:"#245640",route:"Aspen → Glenwood → Vail → Denver",events:[
-["8:00 AM","Leave Aspen","Easy start after the long Day 2."],
-["~9:00 AM","Glenwood Hot Springs","Relax for roughly 2–3 hours."],
-["12:00 PM","Lunch / Glenwood","Eat before heading through the canyon."],
-["Afternoon","Glenwood Canyon → Vail","Scenic drive, then a compact Vail Village stop."],
-["~4:30 PM","Leave Vail","Continue east rather than adding another mountain detour."],
+["9:30 AM","Leave Aspen","Head to Glenwood Springs for the relaxed final sightseeing day."],
+["~10:30 AM","Glenwood Hot Springs","Relax for roughly 2–3 hours."],
+["~1:30 PM","Lunch / Glenwood","Eat before heading through the canyon."],
+["~2:30 PM","Glenwood Canyon → Vail","Scenic drive, then a compact Vail Village stop."],
+["~5:30 PM","Leave Vail","Continue east toward the DEN airport area rather than adding another mountain detour."],
 ["Evening","DEN airport area","Dinner, pack, sleep near airport for the 10 AM flight."]
 ]}];
 let current=0;
